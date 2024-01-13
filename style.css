@@ -1,0 +1,80 @@
+@font-face {
+    font-family: catFont;
+    src: url(Assets/Cattie-Regular.ttf);
+}
+
+@font-face {
+    font-family: catFont2;
+    src: url(Assets/GochiHand-Regular.ttf);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+h1 {
+    font-family: catFont;
+    font-size: 5em;
+    text-align:center;
+    color: rgb(74, 109, 224);
+    margin-bottom: -40px;
+}
+
+.game-info-container {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: space-between;
+}
+
+.game-info {
+    font-family: catFont2;
+    font-size: 3em;
+}
+
+body {
+    background-image: url(Assets/7411725.jpg);
+    background-position:initial;
+    background-size:cover;
+}
+
+.card {
+    background-color: black;
+    height: 175px;
+    width: 175px;
+}
+
+.card-back-image {
+    position: absolute;
+    height: 175px;
+    width: 175px;
+}
+
+.game-container { 
+    margin: 50px auto;
+    display: grid;
+    grid-template-columns: repeat(4, auto);
+    grid-gap: 10px;
+    justify-content: center;
+}
+
+footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+  
+#copyrights {
+    text-align: center;
+}
+
+@media screen and (max-width:720px) {
+    .game-container {
+        grid-template-columns: repeat(2, auto);
+    }
+
+    .game-info-container {
+        flex-direction: column;
+        text-align: right;
+        color: white;
+    }
+}
