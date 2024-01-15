@@ -1,80 +1,122 @@
 @font-face {
-    font-family: catFont;
-    src: url(Assets/Cattie-Regular.ttf);
+  font-family: catFont;
+  src: url(Assets/Cattie-Regular.ttf);
 }
 
 @font-face {
-    font-family: catFont2;
-    src: url(Assets/GochiHand-Regular.ttf);
+  font-family: catFont2;
+  src: url(Assets/GochiHand-Regular.ttf);
 }
 
 * {
-    box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+html {
+  cursor: url(https://cur.cursors-4u.net/nature/nat-8/nat733.cur), auto;
 }
 
 h1 {
+  font-family: catFont;
+  font-size: 5em;
+  text-align: center;
+  color: rgb(74, 109, 224);
+}
+
+.gameButton {
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+}
+
+#startGame {
+    background-color: rgb(108, 201, 108);
     font-family: catFont;
-    font-size: 5em;
-    text-align:center;
-    color: rgb(74, 109, 224);
-    margin-bottom: -40px;
+    font-size: 30px;
+    color: aliceblue;
+    border-radius: 30%;
+}
+
+#resetGame {
+    background-color: rgb(138, 105, 221);
+    font-family: catFont;
+    font-size: 30px;
+    color: aliceblue;
+    border-radius: 30%;
 }
 
 .game-info-container {
-    grid-column: 1 / -1;
-    display: flex;
-    justify-content: space-between;
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: space-between;
 }
 
 .game-info {
-    font-family: catFont2;
-    font-size: 3em;
+  font-family: catFont2;
+  font-size: 3em;
+}
+
+.game-container {
+  display: grid;
+  grid-template-columns: repeat(4, auto);
+  grid-gap: 10px;
+  justify-content: center;
 }
 
 body {
-    background-image: url(Assets/7411725.jpg);
-    background-position:initial;
-    background-size:cover;
+  background-image: url(Assets/7411725.jpg);
+  background-position: initial;
+  background-size: cover;
 }
 
 .card {
-    background-color: black;
-    height: 175px;
-    width: 175px;
+  background-color: black;
+  height: 175px;
+  width: 175px;
+  border: solid black;
 }
+
+.card:hover .card-back {
+  transform: rotateY(-180deg);
+}
+
+.card:hover .card-front {
+  transform: rotateY(0);
+}
+
+/* .card.matched .card-front-image {
+    animation: vibrate 0.5s;
+} */
 
 .card-back-image {
-    position: absolute;
-    height: 175px;
-    width: 175px;
+  position: absolute;
+  height: 170px;
+  width: 170px;
 }
 
-.game-container { 
-    margin: 50px auto;
-    display: grid;
-    grid-template-columns: repeat(4, auto);
-    grid-gap: 10px;
-    justify-content: center;
+.card-front-image {
+  height: 170px;
+  width: 170px;
 }
 
 footer {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
 }
-  
+
 #copyrights {
-    text-align: center;
+  text-align: center;
 }
 
-@media screen and (max-width:720px) {
-    .game-container {
-        grid-template-columns: repeat(2, auto);
-    }
+@media screen and (max-width: 720px) {
+  .game-container {
+    grid-template-columns: repeat(2, auto);
+  }
 
-    .game-info-container {
-        flex-direction: column;
-        text-align: right;
-        color: white;
-    }
+  .game-info-container {
+    flex-direction: column;
+    text-align: right;
+    color: white;
+  }
 }
