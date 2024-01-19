@@ -4,25 +4,19 @@ const statusText = document.getElementById('statusText');
 const startButton = document.getElementById('startGame');
 const restartButton = document.getElementById('resetGame');
 
-
-window.addEventListener('click', function () {
-    
-    let bgMusic = document.getElementById('bgMusic');
-    bgMusic.loop = true;
-    bgMusic.volume = 0.2;
-    bgMusic.play();
-})
 class SoundList {
     constructor() {
         this.bgMusic = new Audio('Assets/background.mp3');
         this.flipSound = new Audio('Assets/flipcard.mp3');
         this.matchSound = new Audio('Assets/matched.mp3');
+        this.misMatchSound = new Audio('Assets/mismatched.mp3');
         this.winSound = new Audio('Assets/win.mp3');
         this.gameOverSound = new Audio('Assets/gameover.mp3');
     }
-    // startMusic() {
-    //     this.bgMusic.play();
-    // }
+    startMusic() {
+        this.bgMusic.play();
+        this.bgMusic.volume = 0.1;
+    }
     stopMusic() {
         this.bgMusic.pause();
         this.bgMusic.currentTime = 0;
@@ -33,8 +27,12 @@ class SoundList {
     match() {
         this.matchSound.play();
     }
+    misMatch() {
+        this.misMatchSound.play();
+    }
     win() {
         this.winSound.play();
+        this.bgMusic.pause();
     }
     gameOver() {
         this.stopMusic();
@@ -57,10 +55,11 @@ class MixOrMatch {
         this.totalClicks = 0;
         this.timeRemaining = this.totalTime;
         this.matchedCards = [];
+        this.statusText.innerText = '';
         this.busy = true; //user can't click on anything else when animation is running
         
         setTimeout(() => {
-            // this.SoundList.startMusic();
+            this.soundList.startMusic();
             this.shuffleCards();
             this.countDown = this.startCountDown();
             this.busy = false;
@@ -80,7 +79,39 @@ class MixOrMatch {
             this.totalClicks ++;
             this.flipCount.innerText = this.totalClicks;
             card.classList.add('visible');
+
+            if(this.cardToCheck)
+                this.checkForCardMatch(card);
+            else
+                this.cardToCheck = card;
         }
+    }
+    checkForCardMatch(card) {
+        if(this.getCardType(card) === this.getCardType(this.cardToCheck))
+            this.cardMatch(card, this.cardToCheck);
+        else
+            this.cardMisMatch(card, this.cardToCheck);
+    
+        this.cardToCheck = '';
+    }
+    cardMatch(card1, card2) {
+        this.matchedCards.push(card1);
+        this.matchedCards.push(card2);
+        this.soundList.match();
+        if(this.matchedCards.length === this.cardsArray.length)
+            this.win();
+    }
+    cardMisMatch(card1, card2) {
+        this.busy = true;
+        this.soundList.misMatch();
+        setTimeout(() => {
+            card1.classList.remove('visible');
+            card2.classList.remove('visible');
+            this.busy = false;
+        }, 1000);
+    }
+    getCardType(card) {
+        return card.getElementsByClassName('card-front')[0].src;
     }
     startCountDown() {
         return setInterval(() => {
@@ -93,7 +124,12 @@ class MixOrMatch {
     gameOver() {
         clearInterval(this.countDown);
         this.soundList.gameOver();
-        this.statusText.innerText = `Boo Hoo, please try again!`
+        this.statusText.innerText = `Boo Hoo, please try again!`;
+    }
+    win() {
+        clearInterval(this.countDown);
+        this.soundList.win();
+        this.statusText.innerText = `Meow, you win!`;
     }
     shuffleCards() {
         for(let i = this.cardsArray.length - 1; i > 0; i--) {
@@ -102,18 +138,15 @@ class MixOrMatch {
             this.cardsArray[i].style.order = randIndex;
         }
     }
-
     canFlipCard(card) {
-        return true;
-        // return (!this.busy && 
+        return (!this.busy && 
         //return true if no animation running
-        //     !this.matchedCards.includes(card) && 
+            !this.matchedCards.includes(card) && 
         // can flip card if is not matched cards
-        //     (card !== this.cardToCheck)); 
+            (card !== this.cardToCheck)); 
         // can flip if card is not the picked card
     }
 }
-
 
 
 cards.forEach(card => {
@@ -123,7 +156,11 @@ cards.forEach(card => {
     });
 });
 
-
-let game = new MixOrMatch(5, cards);
-game.startGame();
+let game = new MixOrMatch(60, cards);
+startButton.addEventListener('click', () => {
+    game.startGame();
+})
+restartButton.addEventListener('click', () => {
+    game.startGame();
+})
 

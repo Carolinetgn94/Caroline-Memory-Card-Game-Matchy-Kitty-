@@ -26,7 +26,7 @@ h1 {
 
 h2 {
   font-family: catFont2;
-  font-size: 30px;
+  font-size: 45px;
   border-radius: 20%;
   color: aliceblue;
   margin: 10px;
@@ -38,6 +38,13 @@ h2 {
   gap: 80px;
 }
 
+#startGame {
+    background-color: rgb(34, 178, 46);
+    font-family: catFont;
+    font-size: 40px;
+    color: aliceblue;
+    border-radius: 30%;
+  }
 
 #resetGame {
     background-color: rgb(138, 105, 221);
@@ -102,7 +109,6 @@ body {
 }
 
 
-
 footer {
   position: absolute;
   width: 100%;
@@ -123,7 +129,7 @@ footer {
     gap: 40px;
   }
 
-  #resetGame {
+  #resetGame #startGame {
     font-size: 20px;
   }
   .game-container {
