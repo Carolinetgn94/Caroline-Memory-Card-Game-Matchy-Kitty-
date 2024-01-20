@@ -8,14 +8,14 @@ class SoundList {
     constructor() {
         this.bgMusic = new Audio('Assets/background.mp3');
         this.flipSound = new Audio('Assets/flipcard.mp3');
-        this.matchSound = new Audio('Assets/matched.mp3');
+        this.matchSound = new Audio('Assets/matched.wav');
         this.misMatchSound = new Audio('Assets/mismatched.mp3');
         this.winSound = new Audio('Assets/win.mp3');
         this.gameOverSound = new Audio('Assets/gameover.mp3');
     }
     startMusic() {
         this.bgMusic.play();
-        this.bgMusic.volume = 0.1;
+        this.bgMusic.volume = 0.3;
     }
     stopMusic() {
         this.bgMusic.pause();
@@ -29,6 +29,7 @@ class SoundList {
     }
     misMatch() {
         this.misMatchSound.play();
+        this.misMatchSound.volume = 0.6;
     }
     win() {
         this.winSound.play();
@@ -126,6 +127,16 @@ class MixOrMatch {
         this.soundList.gameOver();
         this.statusText.innerText = `Boo Hoo, please try again!`;
     }
+    restartGame() {
+        if (this.timeRemaining !== 0) {
+            game.gameOver();
+            setTimeout(() => {
+                game.startGame();
+            }, 1500);
+        } else if (this.flipCount !== 0) {
+            game.startGame();
+        }
+    }
     win() {
         clearInterval(this.countDown);
         this.soundList.win();
@@ -139,15 +150,13 @@ class MixOrMatch {
         }
     }
     canFlipCard(card) {
-        return (!this.busy && 
-        //return true if no animation running
-            !this.matchedCards.includes(card) && 
-        // can flip card if is not matched cards
-            (card !== this.cardToCheck)); 
-        // can flip if card is not the picked card
+        return (!this.busy && //return true if no animation running
+            !this.matchedCards.includes(card) && // can flip card if is not matched cards
+            (card !== this.cardToCheck) &&  // can flip if card is not the picked card
+            this.timeRemaining !== 0); //cannot flip card when time = 0
+      
     }
 }
-
 
 cards.forEach(card => {
     card.addEventListener('click', () => {
@@ -161,6 +170,7 @@ startButton.addEventListener('click', () => {
     game.startGame();
 })
 restartButton.addEventListener('click', () => {
-    game.startGame();
-})
+    game.restartGame();
+});
+
 

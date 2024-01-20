@@ -56,7 +56,8 @@ h2 {
 
 .game-info-container {
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
+  gap: 180px;
 }
 
 .game-info {
@@ -108,6 +109,9 @@ body {
   transform: rotateY(180deg);
 }
 
+.card-back:hover {
+    filter: brightness(70%);
+}
 
 footer {
   position: absolute;
@@ -128,7 +132,6 @@ footer {
   .gameStatus {
     gap: 40px;
   }
-
   #resetGame #startGame {
     font-size: 20px;
   }
@@ -136,8 +139,6 @@ footer {
     grid-template-columns: repeat(2, auto);
   }
   .game-info-container {
-    flex-direction: row;
-    justify-content: space-evenly;
     color: white;
   }
   .game-info {
