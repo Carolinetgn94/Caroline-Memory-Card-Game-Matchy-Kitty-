@@ -1,4 +1,3 @@
-// let cards = Array.from(document.getElementsByClassName('card')); 
 const cards = document.querySelectorAll('.card');
 const statusText = document.getElementById('statusText');
 const startButton = document.getElementById('startGame');
@@ -63,6 +62,7 @@ class MixOrMatch {
             this.soundList.startMusic();
             this.shuffleCards();
             this.countDown = this.startCountDown();
+            startButton.disabled = true;
             this.busy = false;
         }, 500);
         this.hideCards();
@@ -128,12 +128,12 @@ class MixOrMatch {
         this.statusText.innerText = `Boo Hoo, please try again!`;
     }
     restartGame() {
-        if (this.timeRemaining !== 0) {
+        if (this.matchedCards.length !== this.cardsArray.length) {
             game.gameOver();
             setTimeout(() => {
                 game.startGame();
             }, 1500);
-        } else if (this.flipCount !== 0) {
+        } else if (this.matchedCards.length === this.cardsArray.length) {
             game.startGame();
         }
     }
